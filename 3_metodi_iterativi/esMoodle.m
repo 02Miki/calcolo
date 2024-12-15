@@ -69,9 +69,10 @@ b = sum(A, 2);
 
 L = ichol(A);
 
-[x,f,resrel, iter] = pcg(L, b)
+[x,f,resrel, iter] = pcg(A, b, [], [], L,L')
 
-% iter = 4, dovrebbe venire 3 !!!!!!CHIEDERE!!!!!!
+% iter = 4 se pcg(L), dovrebbe venire 3
+% iter = 2 se pcg come sopra
 
 
 
