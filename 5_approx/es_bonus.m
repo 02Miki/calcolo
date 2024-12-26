@@ -167,28 +167,25 @@ clear
 close all
 
 
-A = [1 2; 3 4];
-b  = ones(2, 1);
-x = zeros(2, 1);
-M_GS = tril(A);
-N_GS = A - M_GS;
-rho_GS = myRho(M_GS,N_GS)
-% rho_GSmio = rho(M_GS,N_GS)
 
-% for k = 1:3
-% 
-% for n = 1:size(A, 1)
-%     a = A(n,n)
-%     laT = (b(n,:) - A(n,n+1:end) * x(n+1:end) - A(n, 1:n-1) * x(1:n-1))
-%     laB= b(n,:)
-%     dx = A(n,n+1:end) * x(n+1:end) - A(n, 1:n-1) * x(1:n-1)
-%     soloX = x(n)
-%     x(n) = A(n,n)\(b(n,:) - A(n,n+1:end) * x(n+1:end) - A(n, 1:n-1) * x(1:n-1))
-%     disp("=====")
-% 
-% end
-% 
-% end
+spazio = linspace(0, 2*pi, 21)';
+f = @(x)  x+sin(x).*cos(x)+0.4.*(1-sin(x).^2);
+
+A = [ones(length(spazio), 1), spazio, cos(spazio), sin(spazio)];
+
+AT = A';
+y = AT*f(spazio);
+V = AT*A;
+
+c = V\y
+
+
+% !!! viene uguale facendo A\f(spazio)
+
+
+
+
+
 
 
 
