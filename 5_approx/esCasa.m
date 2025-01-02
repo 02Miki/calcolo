@@ -23,19 +23,37 @@ plot(spazioBello, f(spazioBello))
 
 legend("approssimazione", "vera")
 
-%% 4
+%% scarabocchi
 clc
 clear
 close all
 
+f = @(x) x.^3 - 2*x^2-1;
+
+f(2)
+
+fzero(f, [2 3])
+
+clc
+clear
+close all
+
+f = @(x) x.^3 + 5*x+3-sin(pi*x);
+
+f(2)
+
+fzero(f, [0 -1])
 
 
+clc
+clear
+close all
 
+f = @(x) x.^3 - x-5;
 
+f(1)
 
-
-
-
+% fzero(f, [0 -1])
 
 
 
