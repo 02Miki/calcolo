@@ -14,7 +14,12 @@ A = [ones(length(x),1) exp(x)]
 x = A\y
 
 norm(A*x-y)
-% !!!!!! chidere, viene diverso (dovrebbe venire 2.84e-1, viene 0.532830789423654)
+% !!!!!! chiedere, viene diverso (dovrebbe venire 2.84e-1, viene 0.532830789423654)
+
+AT = A';
+xTeoria = (AT*A)\(AT*y)
+residuo = norm(AT*A*x-AT*y)
+% !!!! perché residuo non viene uguale a sopra?
 
 %% 3
 clc
