@@ -13,13 +13,11 @@ A = [ones(length(x),1) exp(x)]
 
 x = A\y
 
-norm(A*x-y)
-% !!!!!! chiedere, viene diverso (dovrebbe venire 2.84e-1, viene 0.532830789423654)
+residuo = norm(A*x-y)
 
-AT = A';
-xTeoria = (AT*A)\(AT*y)
-residuo = norm(AT*A*x-AT*y)
-% !!!! perché residuo non viene uguale a sopra?
+% !!!!!! Per far venire il risultato giusto, servirebbe un ^2, ma ho
+% chiesto alla prof ed ha detto che è l'esercizio sbagliato, quindi è
+% giusto così !!!!!
 
 %% 3
 clc
