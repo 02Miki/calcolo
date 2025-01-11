@@ -145,4 +145,3 @@ figure
 hold on
 plot(t, u(:, 1),'r', 'linewidth', 2)
 plot(t, u(:, 2),'b', 'linewidth', 2)
-title('EE')
