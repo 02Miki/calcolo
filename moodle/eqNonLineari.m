@@ -91,4 +91,42 @@ end
 
 
 
+%% extra gruppo
+clc
+clear
+close all
+
+phi = @(x) -(exp(-x^2)*sin(5*x)+0.3)/10;
+
+x0 = -1;
+
+toll = 10^-3;
+
+
+for k=1:1000
+    
+    x = phi(x0);
+    
+    if abs(x-x0) < toll
+        k
+        break
+    end
+    x0=x;
+
+end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
