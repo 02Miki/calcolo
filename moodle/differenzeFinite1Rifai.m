@@ -151,7 +151,10 @@ b = f(x(2:end));
 % dirichlet non omogeneo
 b(1) = b(1) + mu/h^2 * BC(1);
 
-b(end) = b(end)/2 + BC(2)/h;
+% essendo BC(2) = 0 non importa, ma il meno è necessario perché nel testo
+% dell'esercizio ci da u' = 0, mentre dovrebbe essere -u' = 0 per il caso
+% "standard"
+b(end) = b(end)/2 + BC(2)/h * (-1);
 
 u = [BC(1); A\b];
 
