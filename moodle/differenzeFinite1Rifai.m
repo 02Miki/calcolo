@@ -163,4 +163,51 @@ plot(x, u)
 u(find(x==pi))
 
 
+%% extra
+
+clc
+clear
+close all
+
+f = @(x) sin(x);
+
+a = 0;
+b = 2*pi;
+intervalli = 10;
+mu = -1;
+h = (b-a)/intervalli;
+
+% neumann a destra
+BC = [0 -1];
+
+% intervalli - 1 perché scrivo la roba di neumann extra "a mano"
+uni = ones(intervalli-1, 1);
+
+% aggiungo un altro elemento alla diagonale a dx per neumann, ma diviso 2
+d = [mu/h^2 * (2) * uni; mu/h^2 * (1)];
+
+% la diagonale è simmetrica, quindi d1 = d_1;
+% aggiungo un 1 in più sempre per neumann
+d1 = mu/h^2 * (-1) * [uni; 1];
+
+A = spdiags([d, d1, d1], [0 1 -1], intervalli, intervalli);
+
+x = (a:h:b)';
+
+% da 2 a end perché non conosco end, quindi devo calcolarlo
+b = f(x(2:end));
+
+% dirichlet non omogeneo
+b(1) = b(1) + mu/h^2 * BC(1);
+
+% essendo BC(2) = 0 non importa, ma il meno è necessario perché nel testo
+% dell'esercizio ci da u' = 0, mentre dovrebbe essere -u' = 0 per il caso
+% "standard"
+b(end) = b(end)/2 + BC(2)/h * (-1);
+
+u = [BC(1); A\b];
+
+plot(x, u)
+
+u(find(x==2*pi))
 

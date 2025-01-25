@@ -44,7 +44,16 @@ trapz(spazio, f(spazio))
 
 
 
+%% extra
 
+f = @(x) sin(3.*x)-x.^2
+a = 5;
+b=9;
+
+spazio = linspace(a,b, 29+1)
+h = (b-a)/29;
+
+h/6*(f(a) + 2*sum(f(spazio(2:end-1))) + 4*sum(f(spazio(1:end-1)+h/2)) + f(b))
 
 
 
