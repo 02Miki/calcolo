@@ -28,7 +28,7 @@ nT = ceil(nT);
 % e ricalcolo dt con nT nuovo così che sia tutto coerente
 dt = (Tf - T0)/nT;
 
-x = linspace(0,L, N+1);
+x = linspace(0,L, N+1)
 
 u0 = @(x) 1.*(0.4 < x & x < 0.6);
 
