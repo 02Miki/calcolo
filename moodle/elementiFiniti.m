@@ -209,47 +209,194 @@ u = [BC(1); A\b; BC(2)];
 
 u(find(x==1.59))
 
+%% round 2
+
+%% 1
+
+clc
+clear
+close all
+
+mu = 1;
+a = 0;
+b = 1;
+
+f = @(x) 3.*cos(x) + (3-x.^3).*sin(x);
+
+x = [0 0.11 0.25 0.36 0.49 0.52 0.6 0.77 0.82 0.92 1]';
+
+h = diff(x);
+
+d = mu./h(1:end-1) + mu./h(2:end);
+
+d1 = -mu./h(2:end-1);
+
+N = length(x)-2;
+A = spdiags([d, [0;d1], [d1;0]], [0 1 -1], N, N);
+
+b = f(x(2:end-1))/2 .* (h(1:end-1) + h(2:end));
+
+% non serve modificare B visto che ho dirichlet omogeneo
+
+u = [0; A\b; 0];
+
+u(find(x==0.36))
+
+
+%% 2
+
+clc
+clear
+close all
+
+f = @(x) 3.*cos(x) + (3-x.^3).*cos(x);
+
+x = [1 1.25 1.43 1.62 1.98 2.07 2.35 2.54 2.67 2.82 3]';
+
+h = diff(x);
+
+mu = 1;
+
+d = mu./h(1:end-1) + mu./h(2:end);
+
+d1 = -mu./h(2:end-1);
+
+N = length(x)-2;
+A = spdiags([d, [0;d1], [d1;0]], [0 1 -1], N, N);
+
+b = f(x(2:end-1))/2 .* (h(1:end-1) + h(2:end));
+
+u = [0; A\b; 0];
+
+u(find(x==1.43))
+
+
+%% 3
+clc
+clear
+close all
+
+
+mu = 1;
+
+f = @(x) 2.*sin(x) + (1-x).*sin(x);
+
+% neumann a dx
+BC = [0 2];
+
+x = [0 0.3 0.54 0.73 0.95 1.01 1.24 1.53 1.76 1.95 2]';
+
+h = diff(x);
+
+d = mu./h(1:end-1) + mu./h(2:end);
+
+d = [d; mu./h(end)];
+
+d1 = -mu./h(2:end);
+
+N = length(x)-1;
+A = spdiags([d, [0;d1], [d1;0]], [0 1 -1], N, N);
+
+
+b = f(x(2:end-1))/2 .* (h(1:end-1) + h(2:end));
+
+b = [b; f(x(end))/2 * h(end) + BC(2)];
+
+u = [BC(1); A\b];
+
+u(find(x==1.01))
+
+
+%% 4
+
+clc
+clear 
+close all
+
+BC = [1 -1];
+
+gamma_f = @(x) ((1-2.*x).^2 - 2);
+
+mu =1;
+
+intervalli = 140;
+a = 0;
+b = 1;
+x = linspace(a, b, intervalli+1)';
+
+h = 1/intervalli;
+
+d = 2*mu/h * ones(length(x)-2,1);
+
+d = [mu./h; d; mu./h];
+
+d1 = -mu./h*ones(length(x)-1, 1);
+
+A = spdiags([d, [0;d1], [d1;0]], [0 1 -1], intervalli+1, intervalli+1);
+
+xMedi = (x(2:end) + x(1:end-1))/2;
+
+d_gamma = h/3 * (gamma_f(xMedi(1:end-1)) + gamma_f(xMedi(2:end)));
+
+d_gamma = [h/3 * gamma_f(xMedi(1)); d_gamma; h/3 * gamma_f(xMedi(end))];
+d1_gamma = 1/6 *gamma_f(xMedi(1:end)) *h;
+
+A_gamma = spdiags([d_gamma, [0;d1_gamma], [d1_gamma;0]], [0 1 -1], intervalli+1, intervalli+1);
+
+
+A_tot = A+A_gamma;
+
+b = zeros(intervalli+1, 1);
+
+b(1) = -BC(1);
+b(end) = +BC(end);
+u = A_tot\b;
+
+u_esatta = @(x) exp(x-x.^2);
+
+
+figure 
+hold on
+
+plot(x, u, LineWidth=2)
+plot(x, u_esatta(x), "o")
 
 
 
+abs(u(end)-u_esatta(1))
 
 
+%% tema esame
 
+clc
+clear
+close all
 
+L = 2;
+x = L.*[0 0.02 0.12 0.19 0.28 0.33 0.41 0.42 0.48 0.53 0.56 0.61 0.69 0.74 0.78 0.83 0.88 0.94 0.99 1]';
 
+f = @(x) 1+1.*(x>L/2);
 
+mu_f = @(x) 2+x;
+h = diff(x);
 
+xMedi = (x(2:end) + x(1:end-1))/2;
 
+muVal = mu_f(xMedi);
 
+d = muVal(1:end-1)./h(1:end-1) + muVal(2:end)./h(2:end);
 
+d1 = -muVal(2:end-1)./h(2:end-1);
 
+N = length(x)-2;
+A = spdiags([d, [0;d1], [d1;0]], [0 1 -1], N, N);
 
+b = f(x(2:end-1))/2 .* (h(1:end-1) + h(2:end));
 
+u = [0; A\b; 0];
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+plot(x,u)
+% più di 0.2466, meno di 0.24899 -> 0.247, OK
 
 
 
