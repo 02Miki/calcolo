@@ -399,4 +399,33 @@ plot(x,u)
 % più di 0.2466, meno di 0.24899 -> 0.247, OK
 
 
+%% extra
+
+%% 2
+
+clc
+clear
+close all
+
+f = @(x) 2.*sin(x) + (1-x).*sin(x);
+x = [0 0.1 0.27 0.37 0.41 0.54 0.66 0.77 0.8 0.93 1]';
+
+h = diff(x);
+
+mu = 1;
+
+d = mu./h(1:end-1) + mu./h(2:end);
+
+d1 = -mu./h(2:end-1);
+
+N = length(x)-2;
+A = spdiags([d, [0;d1], [d1;0]], [0 1 -1], N, N);
+
+b = f(x(2:end-1))/2 .* (h(1:end-1) + h(2:end));
+
+u = [0; A\b; 0];
+
+u(find(x==0.54))
+
+
 

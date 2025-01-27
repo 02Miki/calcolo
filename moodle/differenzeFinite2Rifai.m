@@ -240,13 +240,46 @@ b(end) = b(end)/2 + BC(2)/h;
 
 max(A\b)
 
+%% extra
 
 
+clc
+clear
+close all
 
+a = 0;
+b = pi;
 
+% neumann a dx
+BC = [1/2 -1/3];
 
+mu_f = @(x) 1 + abs(sin(x));
 
+f = @(x) exp(cos(x) - sin(x));
 
+intervalli = 1000;
+h = (b-a)/intervalli;
+x = (a:h:b)';
+
+xMedi = (x(1:end-1) + x(2:end))/2;
+
+muVal = mu_f(xMedi);
+
+d = muVal(1:end-1) + muVal(2:end);
+
+d = [d; muVal(end)]./h^2;
+
+d1 = -muVal(2:end)./h^2;
+
+A = spdiags([d, [0;d1], [d1;0]], [0 1 -1], intervalli, intervalli);
+
+b = f(x(2:end));
+
+b(1) = b(1) + BC(1)*muVal(1)/h^2;
+
+b(end) = b(end)/2 + BC(2)/h;
+
+max(A\b)
 
 
 
