@@ -104,14 +104,45 @@ y(end, 2)
 
 
 
-%% 5 MANCA
+%% 5 
+
+clc
+clear
+close all
 
 
+a = 0.5;
+lambda = 1;
+dx = 0.1;
+dt = lambda*dx;
+
+t0 = 0;
+tf = 1;
+
+x0 = 0;
+xf = 1;
+
+f = @(x) sin(2*pi.*x);
+
+x = x0:dx:xf;
+
+for k = 1:length(x)-1
+    
+    U(k,1) = 1/dx * integral(f, x(k), x(k+1));
+
+end
+
+nt = (tf-t0)/dt;
 
 
+for k = 1:nt
+    U_sx = [U(end); U(1:end-1)];
 
+    U = U - lambda*a * (U - U_sx);
 
+end
 
+max(U)
 
 
 
