@@ -98,6 +98,110 @@ brutto = linspace(a, b, 5);
 
 polyval(polyfit(brutto, f(brutto), 4), pi/7)
 
+%% round 2
+
+%% 1
+clc
+clear
+close all
+
+f = @(x) x.^2+sin(x.^3);
+
+a = 0;
+b = 1;
+x = linspace(a,b, 5);
+
+fit = polyfit(x, f(x), 4);
+
+spazio = linspace(0,1);
+val = polyval(fit,spazio);
+
+
+abs(f(0.4)- polyval(fit, 0.4))
+
+abs(f(0.5)- polyval(fit, 0.5))
+
+
+%% 2
+
+clc
+clear
+close all
+
+f = @(x) cos(x);
+
+a = 0;
+b = 2*pi;
+
+x = linspace(a,b,3);
+
+fit = polyfit(x, f(x), 2);
+
+val = polyval(fit, pi/8)
+
+
+%% 3
+
+clc
+clear
+close all
+
+x = [3 7 13];
+y = [1 4 10];
+
+fit = polyfit(x, y, 2);
+val = polyval(fit, sinh(1.2))
+
+
+%% 4
+clc
+clear
+close all
+
+t = [0 9 13];
+v = [20 31 50];
+
+fit = polyfit(t, v, 2);
+
+val = polyval(fit, 10)
+
+%% 5
+clc
+clear
+close all
+
+
+f = @(x) sin(x);
+
+a = 0;
+b = 2*pi;
+
+x = linspace(a,b,6);
+
+fit = polyfit(x, f(x), 5);
+val = polyval(fit, 2*pi/9)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

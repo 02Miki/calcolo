@@ -52,6 +52,66 @@ for k = 0+h:h:finale
 
 end
 
+%% round 2
+
+%% 1
+clc
+clear
+close all
+
+f = @(t,y) -y(1) + t^2;
+
+[t,y] = ode45(f, [0,7], 0)
+
+
+%% 2
+
+clc
+clear
+close all
+
+h = 0.1;
+
+f = @(t,y) -y.^2+t.^2;
+tf = 10;
+
+y = pi;
+% deve essere -h perché eulero esplicito calcola la roba del passo
+% successivo con quelli del passo attuale, quindi usando tf-h come passo
+% "attuale", calcolo y di tf
+for k = 0:h:tf-h
+    
+    y = y + h*f(k, y)
+end
+
+
+%% 3
+
+clc
+clear
+close all
+
+h = 0.3;
+
+f = @(x,y) (sin(x) - 5.*y.^2)/3;
+
+y = 0;
+for k = 0.3:h:1.2-h
+    k
+    y(end+1) = y(end) + h*f(k,y(end))
+    
+end
+
+
+%% 4 HEUN ????
+
+
+
+
+
+
+
+
 
 
 

@@ -115,14 +115,93 @@ for k=1:1000
 
 end
 
+%% round 2
+
+%% 1
+clc
+clear
+close all
+
+f = @(x) x.^4+4.*x;
+
+df = @(x) 4.*x.^3 + 4;
+
+x0 = 2;
+
+for k=1:6
+    x0 = x0-f(x0)/df(x0)
+
+end
+
+%% 2
+clc
+clear
+close all
 
 
+phi = @(x) 1/(x.^2 + sin(x) + 1);
+
+x0 = 0;
+errori = [];
+for k = 1:100
+
+    x = phi(x0);
+    errori(k) = abs(x-x0);
+    
+    if abs(x0-x) < 10^-7
+        k
+        x0 = x;
+        break
+    end
+    x0 = x
+end
+
+errori(2:end)./errori(1:end-1)
+
+% approssimo la derivata di phi con le derivate centrate
+h = 0.0001;
+abs((phi(x+h) - phi(x-h))/(2*h))
+
+% != 0 -> p = 1
 
 
+%% 3
+
+clc
+clear
+close all
+
+f = @(x) 1/3 .*x.^3 + 3.*x + 2.*sin(x) + pi;
+
+a = -1;
+b = 0;
+for i = 1:12
+    x = (a+b)/2
+    if (f(a)*f(x)) <0
+        b =x;
+    else
+        a = x;
+    end
+
+end
 
 
+%% 4
+clc
+clear
+close all
 
+f = @(x) x.^4 + 4*x;
+% non serve perché metodo secanti
+% df = @(x) 4.*x.^3 + 4;
 
+x=[-2 2]';
+
+for k = 1:5
+    df = (f(x(k+1)) - f(x(k)))/(x(k+1) - x(k));
+
+    x(end+1) = x(k+1) - f(x(k+1))/df 
+end
 
 
 

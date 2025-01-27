@@ -211,3 +211,140 @@ plot(x, u)
 
 u(find(x==2*pi))
 
+
+%% round 2
+
+%% 1
+
+clc
+clear
+close all
+
+x0 = 0;
+xf = 2*pi;
+
+f = @(x) sin(x);
+mu = -1;
+
+% bisogna moltiplicare per mu perché psi è mu*u'. Essendo u' = -1, allora
+% mu*u' = mu*-1
+BC = [0 -1*mu];
+
+intervalli = 10;
+
+h = (xf-x0)/intervalli;
+
+uni = ones(intervalli-1,1);
+
+d = mu/h^2*2.*uni;
+
+d = [d; mu/h^2];
+
+d1 = -mu/h^2.*uni;
+
+A = spdiags([d, [0;d1], [d1;0]], [0 1 -1], intervalli, intervalli);
+
+x = (x0:h:xf)';
+b = f(x(2:end));
+
+b(1) = b(1) + mu/h^2*BC(1);
+b(end) = b(end) + BC(2)/h;
+
+u = [0; A\b];
+
+
+u(end)
+
+%% 2
+clc
+clear
+close all
+
+mu = 0.1;
+
+
+--- da fare 
+
+
+%% 3
+
+clc
+clear
+close all
+
+mu = 3;
+
+f = @(x) exp(sin(x));
+
+BC = [1 2];
+
+a = -2;
+b = 2;
+
+intervalli = 1000;
+h = (b-a)/intervalli;
+
+
+uni = ones(intervalli-1,1);
+
+d = 2*uni;
+d1 = -1*uni;
+
+A = spdiags(mu/h^2*[d, d1, d1], [0 1 -1], intervalli-1, intervalli-1);
+
+x = (a:h:b)';
+b = f(x(2:end-1));
+
+b(1) = b(1) + mu/h^2 * BC(1);
+b(end) = b(end) + mu/h^2 * BC(2);
+
+u = [BC(1); A\b; BC(2)];
+
+max(u)
+
+
+%% 4
+
+clc
+clear
+close all
+
+mu = 2;
+
+f = @(x) abs(cos(pi.*x));
+
+a = 0;
+b = 2;
+
+BC = [0 0];
+intervalli = 1000;
+
+h = (b-a)/intervalli;
+
+uni = ones(intervalli-1,1);
+d = 2*uni;
+d1 = -1*uni;
+
+A = spdiags(mu/h^2.*[d, d1, d1], [0 1 -1], intervalli-1, intervalli-1);
+
+x = (a:h:b)';
+b = f(x(2:end-1));
+
+u = [0; A\b; 0];
+
+max(u)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

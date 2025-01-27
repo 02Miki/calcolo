@@ -88,10 +88,6 @@ u = [A\b;BC(end)];
 plot(x, u)
 max(u)
 
-
-
-
-
 %% 3
 clc
 clear
@@ -283,9 +279,53 @@ max(A\b)
 
 
 
+%% extra
+
+%% 2
+
+clc
+clear
+close all
+
+a = 0;
+b = pi;
+
+f = @(x) cos(x-sin(x));
+
+% neumann a sx
+BC = [1 1];
+
+intervalli = 1000;
+
+h = (b-a)/intervalli;
+
+x = (a:h:b)';
+
+mu_f = @(x) x.^2+1;
+xMedi = (x(1:end-1) + x(2:end))/2;
+muVal = mu_f(xMedi);
+
+d = muVal(1:end-1) + muVal(2:end);
+
+% aggiungo extra neumann a sx
+% d = [(mu_f(x(1)+h/2) + mu_f(x(1)-h/2))/2; d]./h^2;
+d = [muVal(1); d]./h^2;
+% non mi serve il valore finale visto che conosco già l'ultima u grazie a
+% dirichlet
+d1 = -muVal(1:end-1)./h^2;
 
 
+A = spdiags([d, [0;d1], [d1;0]], [0 1 -1], intervalli, intervalli);
+
+b = f(x(1:end-1));
+
+b(1) = b(1)/2 - BC(1)/h;
+
+b(end) = b(end) + muVal(end) * BC(end)/h^2;
 
 
+u = [A\b;BC(end)];
+plot(x, u)
+max(u)
 
 

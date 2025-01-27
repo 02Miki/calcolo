@@ -56,4 +56,57 @@ h = (b-a)/29;
 h/6*(f(a) + 2*sum(f(spazio(2:end-1))) + 4*sum(f(spazio(1:end-1)+h/2)) + f(b))
 
 
+%% round 2
+
+%% 1
+clc
+clear
+close all
+
+N = 20;
+
+a = 0;
+b = 1;
+h = (b-a)/N;
+f = @(x) exp(-x.^2);
+
+x = linspace(a,b,N+1);
+
+h/6 * (f(x(1)) + 2 * sum(f(x(2:end-1))) + 4 * sum(f(x(1:end-1) + h/2)) + f(x(end)))
+
+
+%% 3
+clc
+clear
+close all
+
+f = @(x) exp(-x.^2);
+
+a = -1;
+b = 1;
+intervalli = 12;
+x = linspace(a,b,intervalli+1);
+
+trapz(x, f(x))
+
+%% 4
+clc
+clear
+close all
+
+intervalli = 51;
+a = 2;
+b = 9;
+f = @(x) -3.*sin(x) + cos(x);
+x = linspace(a, b, intervalli+1);
+
+trapz(x, f(x))
+
+
+
+
+
+
+
+
 

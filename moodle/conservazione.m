@@ -1,4 +1,4 @@
-%% 1 -- ???
+%% 1
 
 clc
 clear
@@ -46,8 +46,6 @@ for k=1:passiT
 end
 
 max(U)
-
-
 
 
 %% 2
