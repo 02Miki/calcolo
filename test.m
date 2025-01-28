@@ -76,5 +76,63 @@ f = @(x) h/6 * (y(x) + 4*y(x+h/2) + y(x+h))
 
 f(0) + f(pi/2)
 
+%%
 
+clc
+clear
+close all
+
+a = 1/4;
+b = 3/4;
+dx = 0.5;
+
+f = @(x) x.*(x <=1/2) + 1/2.*(x>1/2);
+tutto = integral(f, a,b)/dx
+
+meta = integral(f, 1/4, 1/2)
+altrameta = integral(f, 1/2, 3/4)
+
+
+%% 
+clc
+clear
+close all
+
+t0 = 0;
+tf = 1;
+
+x0 = -3/4-2;
+xf = 3/4+2;
+
+a = 4;
+lambda_a = 3/4;
+
+
+f = @(x) abs(x).*(abs(x) <=1/2 ) + 1/2.*(abs(x)>1/2);
+spazio = linspace(x0,xf);
+
+plot(spazio, f(spazio))
+lambda = lambda_a/a;
+dx = 0.5;
+
+dt = dx*lambda;
+
+x = x0:dx:xf;
+
+U = [];
+for k=1:length(x)-1
+
+    U(end+1,1) = 1/dx * integral(f, x(k), x(k+1))
+end
+
+nt = 2;
+
+for t=1:nt
+    U_sx = [U(end); U(1:end-1)];
+    U_dx = [U(2:end); U(1)];
+
+
+    U = 1/2 * (U_sx + U_dx) - 1/2 * lambda*a*(U_dx - U_sx)
+
+end
 

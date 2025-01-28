@@ -227,7 +227,7 @@ for t=1:nt
     U_sx = [U(end); U(1:end-1)];
     U_dx = [U(2:end); U(1)];
 
-    U = 1/2 * (U_sx + U_dx) - 1/2 * lambda*a*(U_sx - U_dx);
+    U = 1/2 * (U_sx + U_dx) - 1/2 * lambda*a*(U_dx - U_sx);
     plot(xMedi,U);
     pause(0.01)
 end
