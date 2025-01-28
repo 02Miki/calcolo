@@ -262,9 +262,30 @@ close all
 
 mu = 0.1;
 
+f = @(x) ones(length(x),1);
 
---- da fare 
+x0 = 0;
+xf = 1;
 
+intervalli = 100;
+h = (xf-x0)/intervalli;
+
+uni = ones(intervalli-1, 1);
+
+d = (mu/h^2*2 +1/h).* uni ;
+d1 = (-mu/h^2).*uni;
+d_1 = (-mu/h^2 - 1/h).*uni;
+
+
+A = spdiags([d, d1, d_1], [0 1 -1], intervalli-1, intervalli-1);
+
+x = (x0:h:xf)';
+
+b = f(x(2:end-1));
+
+u = [0; A\b; 0];
+max(u)
+plot(x,u)
 
 %% 3
 
