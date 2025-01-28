@@ -428,4 +428,173 @@ u = [0; A\b; 0];
 u(find(x==0.54))
 
 
+%% round 3
+clc
+clear
+close all
+
+
+mu = 1;
+
+f = @(x) 2.*sin(x) + (1-x).*cos(x);
+
+a = 0;
+b = 2;
+
+x = [0 0.33 0.57 0.63 0.88 1.07 1.31 1.4 1.79 1.91 2]';
+h = diff(x);
+% neumann a dx
+BC = [4 0];
+
+d = mu./h(1:end-1) + mu./h(2:end);
+
+d = [d; mu/h(end)];
+
+d1 = -mu./h(2:end);
+
+N = length(x)-1;
+A = spdiags([d, [0;d1], [d1;0]], [0 1 -1], N,N);
+
+b = f(x(2:end-1))/2 .* (h(1:end-1) + h(2:end));
+
+b(1) = b(1) + mu./h(1) * BC(1);
+
+b(end+1) = f(x(end))/2 * h(end)+BC(2);
+
+u = [BC(1); A\b]
+plot(x,u);
+
+u(find(x==1.4))
+
+%% 2
+
+clc
+clear
+close all
+
+
+mu = 1;
+a = 0;
+b = 1;
+
+f = @(x) 3.*cos(x) + sqrt(x+2).*cos(x);
+
+x = [0 0.13 0.2 0.32 0.42 0.58 0.67 0.75 0.8 0.94 1]';
+
+h = diff(x);
+
+d = mu./h(1:end-1) + mu./h(2:end);
+
+d1 = -mu./h(2:end-1);
+
+N = length(x)-2;
+A = spdiags([d, [0;d1], [d1;0]], [0 1 -1], N, N);
+
+b = f(x(2:end-1))/2 .* (h(2:end) + h(1:end-1));
+
+u = [0; A\b; 0]
+
+
+plot(x,u)
+u(find(x==0.42))
+
+
+%% 3
+
+clc
+clear
+close all
+
+N = 30;
+
+h = 1/N;
+
+a = 0;
+b = 1;
+mu = 1;
+gamma_f = @(x) (-2.*x).^2 * log(5)^2-2*log(5);
+f = @(x) zeros(length(x),1);
+
+% neumann dx e sx
+BC = [0 -2/5*log(5)];
+
+x = (a:h:b)';
+
+
+uni = ones(length(x),1);
+d = 2*mu./h .* uni;
+
+d(1) = d(1)/2;
+d(end) = d(end)/2;
+
+d1 = -mu./h * uni;
+
+A = spdiags([d, d1, d1], [0 1 -1], length(x), length(x));
+
+xMedi = (x(2:end) + x(1:end-1))/2;
+
+gammaVal = gamma_f(xMedi);
+
+dR = h/3 * (gammaVal(1:end-1) + gammaVal(2:end));
+
+dR = [h/3 * gammaVal(1); dR; h/6*gammaVal(end)];
+
+dR1 = h/6 * gammaVal(1:end);
+
+AR = spdiags([dR, [0;dR1], [dR1;0]], [0 1 -1], length(x), length(x));
+
+A_tot = A+AR;
+
+b = f(x(2:end-1))/2 .* (2*h);
+
+b = [f(x(1))/h - BC(1); b; f(x(end))/h + BC(2)];
+
+u = A_tot\b;
+
+figure
+hold on
+plot(x,u)
+
+
+u_esatta = @(x) 5.^(-x.^2);
+
+plot(x, u_esatta(x))
+
+zero = abs(u_esatta(0) - u(1))
+uno = abs(u_esatta(1) - u(end))
+
+%% 4
+clc
+clear
+close all
+
+mu = 1;
+a = 0;
+b = 1;
+
+f = @(x) 2.*sin(x) + (1-x).*sin(x);
+
+x = [0 0.1 0.29 0.35 0.47 0.58 0.69 0.77 0.88 0.93 1]';
+h = diff(x);
+
+d = mu./h(1:end-1) + mu./h(2:end);
+
+d1 = -mu./h(2:end-1);
+
+A = spdiags([d, [0;d1], [d1;0]], [0 1 -1], length(x)-2, length(x)-2);
+
+b = f(x(2:end-1))/2 .* (h(1:end-1) + h(2:end));
+
+u = [0; A\b; 0];
+plot(x,u)
+
+u(find(x==0.69))
+
+
+
+
+
+
+
+
 

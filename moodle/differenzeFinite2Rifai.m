@@ -329,3 +329,131 @@ plot(x, u)
 max(u)
 
 
+%% round 2
+
+%% 1
+
+clc
+clear
+close all
+
+
+mu_f = @(x) exp(1-x);
+
+f = @(x) -sin(x.*cos(x));
+
+x0 = 0;
+xf = pi;
+
+intervalli = 1000;
+
+h = (xf-x0)/intervalli;
+x = (x0:h:xf)';
+
+xMedi = (x(2:end) + x(1:end-1))/2;
+muVal = mu_f(xMedi);
+
+d = (muVal(2:end) + muVal(1:end-1))./h^2;
+
+d1 = -muVal(2:end-1)./h^2;
+
+A = spdiags([d, [0;d1], [d1;0]], [0 1 -1], intervalli-1, intervalli-1);
+
+b = f(x(2:end-1));
+
+
+u = [0; A\b; 0];
+max(u)
+
+
+%% 2
+
+clc
+clear
+close all
+
+mu = 6;
+
+% neumann a sx
+BC = [1 -1];
+
+f = @(x) cos(x - log(x+2));
+
+a = 0;
+b = pi;
+intervalli = 1000;
+h = (b-a)/intervalli;
+x = (a:h:b)';
+
+% i nodi interni
+uni = ones(intervalli-1,1);
+
+d = 2*mu/h^2*uni;
+
+d = [d(1)/2; d];
+
+d1 = -mu/h^2*[uni; 1];
+
+A = spdiags([d, d1, d1], [0 1 -1], intervalli, intervalli);
+
+b = f(x(1:end-1));
+
+b(1) = b(1) - BC(1)/h;
+b(end) = b(end) + BC(2)*mu/h^2;
+
+u = [A\b; -1];
+plot(x,u);
+max(u)
+
+%% 3
+
+clc
+clear
+close all
+
+mu_f = @(x) x.^2+1;
+
+f = @(x) cos(x-sin(x));
+
+% neumann a sx
+BC = [1 1];
+
+intervalli = 1000;
+a = 0;
+b = pi;
+h = (b-a)/intervalli;
+
+x = (a:h:b)';
+
+xMedi = (x(2:end) + x(1:end-1))/2;
+
+muVal = mu_f(xMedi);
+
+d = (muVal(1:end-1) + muVal(2:end))./h^2;
+
+d = [muVal(1)/h^2; d];
+
+d1 = -muVal(1:end-1)./h^2;
+
+A = spdiags([d, [0;d1], [d1;0]], [0 1 -1], intervalli, intervalli);
+
+b = f(x(1:end-1));
+
+b(1) = b(1) - BC(1)/h;
+
+b(end) = b(end) + muVal(end)/h^2*BC(2);
+
+u = [A\b; BC(2)];
+plot(x,u)
+
+max(u)
+
+
+
+
+
+
+
+
+
+

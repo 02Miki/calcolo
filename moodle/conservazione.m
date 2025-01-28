@@ -145,5 +145,149 @@ plot(x, u_vera, LineWidth=3)
 
 legend("0.1", "0.05", "0.02", "0.01", "vera")
 
+%% round 3
+
+%% 1
+clc
+clear
+close all
+
+a = 0.5;
+
+x0 = 0;
+xf = 1;
+
+t0 = 0;
+tf = 1;
+
+f = @(x) cos(2*pi*x);
+
+dx = 0.01;
+lambda = 1;
+dt = lambda*dx;
+x = x0:dx:xf;
+U = [];
+for k = 1:length(x)-1
+    U(end+1, 1) = 1/dx * integral(f, x(k), x(k+1));
+end
+
+% calcolo per verificare che sia numero intero
+nt = (tf-t0)/dt;
+
+% lo calcolo per plottare per vedere se è tutto ok
+xMedi = (x(2:end) + x(1:end-1))/2;
+
+figure
+for t = 1:nt
+    U_sx = [U(end); U(1:end-1)];
+    U_dx = [U(2:end); U(1)];
+
+
+    U = U - 1/2*(lambda*a) * (U_sx-U_dx) + 1/2 * (lambda*a)^2*(U_sx - 2*U + U_dx);
+    plot(xMedi,U)
+    pause(0.01)
+end
+
+
+max(U)
+
+
+%% 2
+clc
+clear
+close all
+
+t0 = 0;
+tf = 1;
+
+x0 = 0;
+xf = 1;
+
+a = 0.5;
+
+f = @(x) sin(2*pi.*x);
+
+lambda = 1;
+dx = 0.1;
+
+dt = dx*lambda;
+
+x = x0:dx:xf;
+
+U = [];
+for k=1:length(x)-1
+
+    U(end+1,1) = 1/dx * integral(f, x(k), x(k+1));
+end
+
+nt = (tf-t0)/dt;
+xMedi = (x(2:end) + x(1:end-1))/2;
+
+for t=1:nt
+    U_sx = [U(end); U(1:end-1)];
+    U_dx = [U(2:end); U(1)];
+
+    U = 1/2 * (U_sx + U_dx) - 1/2 * lambda*a*(U_sx - U_dx);
+    plot(xMedi,U);
+    pause(0.01)
+end
+
+max(U)
+
+%% 3
+clc
+clear
+close all
+
+
+
+a = 0.5;
+
+lambda = 1;
+f = @(x) cos(2*pi.*x);
+
+t0 = 0;
+tf = 10;
+x0 = 0;
+xf = 1;
+
+dx = 0.05;
+figure
+hold on
+for dx = [0.1 0.05 0.02 0.01]
+    dt = dx*lambda;
+
+    U = [];
+    x = x0:dx:xf;
+
+    for k = 1:length(x)-1
+        U(end+1,1) = 1/dx * integral(f, x(k), x(k+1));
+
+    end
+
+    nt = (tf-t0)/dt;
+
+    xMedi = (x(2:end) + x(1:end-1))/2;
+    for t = 1:nt
+        U_sx = [U(end); U(1:end-1)];
+        U_dx = [U(2:end); U(1)];
+
+        U = U - 1/2 * lambda*a*(U_sx-U_dx) + 1/2 * (lambda*a)^2 * (U_sx - 2*U + U_dx);
+
+        
+    end
+    plot(xMedi,U)
+end
+
+x = linspace(x0, xf);
+u_esatta = f(x-a*10);
+
+plot(x, u_esatta, LineWidth=2.5)
+
+
+legend("0.1", "0.05", "0.02", "0.01", "Esatta")
+
+
+
 
 
