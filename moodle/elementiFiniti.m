@@ -537,7 +537,7 @@ gammaVal = gamma_f(xMedi);
 
 dR = h/3 * (gammaVal(1:end-1) + gammaVal(2:end));
 
-dR = [h/3 * gammaVal(1); dR; h/6*gammaVal(end)];
+dR = [h/3 * gammaVal(1); dR; h/3*gammaVal(end)];
 
 dR1 = h/6 * gammaVal(1:end);
 
@@ -547,7 +547,7 @@ A_tot = A+AR;
 
 b = f(x(2:end-1))/2 .* (2*h);
 
-b = [f(x(1))/h - BC(1); b; f(x(end))/h + BC(2)];
+b = [f(x(1))/2*h - BC(1); b; f(x(end))/2*h + BC(2)];
 
 u = A_tot\b;
 
