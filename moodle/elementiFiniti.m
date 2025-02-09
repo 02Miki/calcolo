@@ -591,10 +591,71 @@ plot(x,u)
 u(find(x==0.69))
 
 
+%% extra
 
 
+clc
+clear
+close all
+
+N = 50;
+
+h = 1/N;
+
+a = 0;
+b = 1;
+
+mu = 1;
+gamma_f = @(x) (-2.*x).^2  -2;
+f = @(x) zeros(length(x),1);
+
+% neumann dx e sx
+BC = [0 -2/exp(1)];
+
+x = (a:h:b)';
 
 
+uni = ones(length(x),1);
+d = 2*mu./h .* uni;
 
+d(1) = d(1)/2;
+d(end) = d(end)/2;
+
+d1 = -mu./h * uni;
+
+A = spdiags([d, d1, d1], [0 1 -1], length(x), length(x));
+
+xMedi = (x(2:end) + x(1:end-1))/2;
+
+gammaVal = gamma_f(xMedi);
+
+dR = h/3 .* (gammaVal(1:end-1) + gammaVal(2:end));
+
+dR = [h/3 .* gammaVal(1); dR; h/3.*gammaVal(end)];
+
+dR1 = h/6 .* gammaVal(1:end);
+
+AR = spdiags([dR, [0;dR1], [dR1;0]], [0 1 -1], length(x), length(x));
+
+A_tot = A+AR;
+
+b = f(x(2:end-1))./2 .* (2*h);
+
+b = [f(x(1))/2*h - BC(1); b; f(x(end))/2*h + BC(2)];
+
+u = A_tot\b;
+
+figure
+hold on
+plot(x,u)
+
+
+u_esatta = @(x) exp(-x.^2);
+
+plot(x, u_esatta(x))
+
+zero = abs(u_esatta(0) - u(1))
+
+legend("Calcolata", "Esatta")
 
 
