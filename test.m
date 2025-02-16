@@ -136,3 +136,34 @@ for t=1:nt
 
 end
 
+
+%% 
+clc
+clear
+close all
+
+M = 1000;
+f = @(x) cos(cos(x)-sin(x));
+x_i = 0;
+x_f = pi;
+u0 = 1;
+nL = -0.5;
+h = pi/M;
+muf = @(x) exp(sin(x));
+mux = h/2:h:pi-h/2;
+x = 0:h:pi;
+
+d = [muf(mux(1:end-1))+muf(mux(2:end)) , muf(mux(end))];
+cl = [-muf(mux(2:end)), 0];
+cu = [0, -muf(mux(2:end))];
+A = spdiags([cl' d' cu'],[-1 0 1], M, M)/h^2;
+b_f = f(x(2:end))';
+b_f(end) = b_f(end)/2;
+b_c = zeros(M,1);
+b_c(1) = muf(mux(1))./h^2 *u0;
+b_c(end) = nL/h;
+b = b_f+b_c;
+
+u = A\b;
+u =[u0;u];
+max(u)
