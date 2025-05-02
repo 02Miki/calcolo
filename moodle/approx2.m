@@ -60,4 +60,36 @@ sol = A\y
 
 residuo = norm(A*sol-y)
 
+%% round 3
+
+%% 1
+
+
+x = [4 6 8 9];
+y = [8 6 4 5 9 5];
+
+spline(x,y,exp(0.4))
+
+
+%% 2
+
+% a0*1 + a1*exp(x) + a2 * exp(2*x)
+
+x = [0 1 2 3]';
+y = [1 3 9 27]';
+
+A = [ones(length(x),1), exp(x), exp(2.*x)];
+
+b = A\y
+
+r = norm(A*b-y,2)
+
+
+
+
+
+
+
+
+
 

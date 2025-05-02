@@ -206,6 +206,91 @@ end
 
 
 
+%% round 3
+
+%% 1
+
+f = @(x) exp(-x.^2./3);
+
+
+kMax = 5;
+
+x0 = 1;
+
+
+for k = 1:kMax
+    x0 = f(x0)
+
+
+end
+
+
+%% 2
+
+clc
+clear
+
+f = @(x) x.^4 + 2.*x.^3 - 4.*x - 8;
+
+
+a = 0;
+b = 4;
+
+for k = 1:6
+    c = (a+b)/2;
+    f(a)*c
+    if f(a)*f(c) < 0
+        b = c;
+    else
+        a = c;
+
+    end
+
+
+
+end
+
+%% 3
+clc
+clear
+
+f = @(x) log(x) - 2;
+
+df = @(x) 1/x;
+
+x0 = 3;
+
+
+for k = 1:5
+    x0 = x0-f(x0)/df(x0)
+
+end
+
+
+%% 4
+
+clc
+clear
+
+f = @(x) x.^3 .*sin(x);
+x0 = 2;
+
+df = @(x) 3.*x^2*sin(x) + x.^3*cos(x);
+
+for k = 1:4
+
+    x0 = x0-f(x0)/df(x0)
+end
+
+
+
+
+
+
+
+
+
+
 
 
 

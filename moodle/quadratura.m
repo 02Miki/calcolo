@@ -102,6 +102,64 @@ x = linspace(a, b, intervalli+1);
 
 trapz(x, f(x))
 
+%% round 3
+
+
+%% 1
+
+f = @(x) exp(-x.^2);
+
+x = linspace(-1, 1, 13);
+trapz(x, f(x))
+
+
+
+%% 3
+
+intervalli = 90;
+
+x = linspace(4, 8, intervalli+1);
+
+f = @(x) log(x) + x.*(3.*x);
+
+trapz(x, f(x))
+
+
+%% 4
+clear
+intervalli = 20;
+
+a = 0;
+b = 1;
+
+f = @(x) exp(-x.^2);
+
+h = (b-a)/intervalli;
+x = a:h:b
+
+
+h/6 * (f(a) + 2 * sum(f(x(2:end-1))) + 4 * sum(f(x(1:end-1) + h/2)) +f(end)  )
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

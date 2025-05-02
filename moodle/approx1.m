@@ -182,6 +182,60 @@ fit = polyfit(x, f(x), 5);
 val = polyval(fit, 2*pi/9)
 
 
+%% round 3
+
+%% 1
+
+f = @(x) tan(x);
+
+x = linspace(-pi/3, pi/3, 6)
+polyval(polyfit(x, f(x), 5), pi/7)
+
+%% 2
+% (si può fare anche solo immaginandoselo)
+
+f = @(x) 1./(x.^4+1);
+
+x = linspace(-4, 6, 7);
+xMeglio = linspace(-4, 6)
+val = polyval(polyfit(x, f(x), 6), xMeglio)
+
+hold on
+plot(xMeglio, val)
+plot(xMeglio, f(xMeglio))
+
+%% 3
+clc
+f = @(x) cos(x);
+
+x = linspace(0, 2*pi, 4);
+
+polyval(polyfit(x, f(x), 3), pi/8)
+
+%% 4
+
+clc
+clear
+close all
+
+t = [0, 10, 17, 27, 34];
+
+v = [47, 59, 33, 42, 50];
+
+polyval(polyfit(t, v, length(v)-1), 11)
+
+
+
+%% 5
+
+f = @(x) x.*exp(x);
+
+x = linspace(0, 1, 7);
+
+val = polyval(polyfit(x, f(x), 6), [0.3 0.5])
+
+err = [f(0.3), f(0.5)]-[val(1) val(2)]
+
 
 
 
