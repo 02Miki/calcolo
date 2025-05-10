@@ -102,3 +102,61 @@ end
 
 
 %% 4 heun
+
+
+%% round 3
+
+%% 1
+
+clc
+clear
+
+h = 0.05;
+t = 6;
+y = [2*pi; 2]
+
+
+for k = 0+h:h:t
+    % tp = k + h;
+
+    y(2) = (y(2) + h*(-3*y(1)-k^2)) / (3*h^2 - h + 1)
+    y(1) = y(1) + h*y(2)
+end
+
+%% 3
+
+clc
+clear
+
+xf = 1;
+tf = 1;
+
+y = [0; 1];
+
+f = @(y) [y(2); 2*y(2)- y(1)];
+
+
+intervalli = 10^3;
+h = tf/intervalli;
+for k = 1:intervalli
+    y = y + h*f(y);
+
+
+end
+
+f_esatta = @(x) x.*exp(x);
+
+abs(f_esatta(1) - y(1))
+
+% 0.0040721 OK
+
+
+
+
+
+
+
+
+
+
+
