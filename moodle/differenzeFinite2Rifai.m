@@ -450,6 +450,117 @@ max(u)
 
 
 
+%% round 4
+
+%% 1
+clc
+clear
+close all
+
+mu = 2;
+
+a = 0;
+b = pi;
+
+% neumann a destra
+BC = [1 -1];
+
+intervalli = 1000;
+
+f = @(x) sin(x + cos(x));
+
+h = (b-a)/intervalli;
+
+x = (a:h:b)';
+
+d = 2*mu/h^2 * ones(intervalli, 1);
+d(end) = d(end)/2;
+
+d1 = -mu/h^2 * ones(intervalli, 1);
+
+A = spdiags([d, d1, d1], [0 1 -1], intervalli, intervalli);
+
+b = f(x(2:end));
+
+b(1) = b(1) + mu/h^2*BC(1);
+b(end) = b(end)/2 + BC(2)/h;
+
+max(A\b)
+
+
+%% 2
+clc
+clear
+close all
+
+a = 0;
+b = pi;
+
+f = @(x) exp(cos(x)-sin(x));
+
+% neumann a dx
+BC = [1/2 -1/3];
+
+mu_fun = @(x) 1+abs(sin(x));
+
+intervalli = 1000;
+
+h = (b-a)/intervalli;
+
+x = (a:h:b)';
+
+xMedi = (x(1:end-1) + x(2:end))/2;
+
+mu = mu_fun(xMedi);
+
+d = [(mu(1:end-1) + mu(2:end))/h^2; mu(end)/h^2];
+
+d1 = -mu(2:end)/h^2;
+
+A = spdiags([d, [0; d1], [d1; 0]], [0 1 -1], intervalli, intervalli);
+
+b = f(x(2:end));
+
+b(1) = b(1) + mu(1)/h^2*BC(1);
+b(end) = b(end) + BC(2)/h;
+
+
+max(A\b)
+
+%% 3
+clc
+clear
+close all
+
+
+a = 0;
+b = pi;
+mu_fun = @(x) 2+cos(x);
+
+f = @(x) sin(log(x+1));
+
+intervalli = 1000;
+h = (b-a)/intervalli;
+
+x = (a:h:b)';
+
+xMedi = (x(2:end) + x(1:end-1))/2;
+muVal = mu_fun(xMedi);
+
+d = (muVal(1:end-1) + muVal(2:end))./h^2;
+
+d1 = -muVal(2:end-1)./h^2;
+
+A = spdiags([d, [0;d1], [d1;0]], [0 1 -1], intervalli-1, intervalli-1);
+
+b = f(x(2:end-1));
+
+max(A\b)
+
+
+
+
+
 
 
 
