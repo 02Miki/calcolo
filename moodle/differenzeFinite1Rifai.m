@@ -357,6 +357,141 @@ max(u)
 
 
 
+%% round 3
+
+%% 1
+clc
+clear
+close all
+
+mu = 3;
+
+f = @(x) exp(pi.*x);
+a = -1;
+b = 1;
+% dirichlet omogeneo
+
+intervalli = 1000;
+h = (b-a)/intervalli;
+x = (a:h:b)'
+
+d1 = - mu/h^2 * ones(intervalli-1,1);
+
+d = 2*mu/h^2 * ones(intervalli-1,1);
+
+A = spdiags([d1, d1, d], [1 -1 0], intervalli-1, intervalli-1);
+
+b = f(x(2:end-1));
+
+max(A\b)
+
+
+%% 2
+clc
+clear
+close all
+
+f = @(x) -cos(x);
+
+mu = -1;
+a = 0;
+b = 2*pi;
+
+% neumann a destra
+BC = [1 0];
+
+intervalli = 10;
+
+h = (b-a)/intervalli;
+
+x = (a:h:b)';
+
+d = 2*mu/h^2 * ones(intervalli,1);
+
+d(end) = d(end)/2;
+
+d1 = -mu/h^2 * ones(intervalli-1,1);
+
+A = spdiags([d, [0;d1], [d1;0]], [0 1 -1], intervalli, intervalli);
+
+b = f(x(2:end));
+b(1) = b(1) + mu/h^2*BC(1)
+b(end) = b(end)/2 + BC(end)/h;
+
+
+
+plot(x, [BC(1); A\b])
+
+%% 3
+clc
+clear
+close all
+
+mu = 2;
+
+f = @(x) x.^(2/3);
+
+BC = [1 2];
+
+a = 0;
+b = 3;
+intervalli = 100;
+
+h = (b-a)/intervalli;
+x = (a:h:b)';
+
+d = 2*mu/h^2.*ones(intervalli-1,1);
+
+d1 = -mu/h^2*ones(intervalli-1,1);
+
+A = spdiags([d, d1, d1], [0 1 -1], intervalli-1, intervalli-1);
+
+
+b = f(x(2:end-1));
+b(1) = b(1) + mu/h^2 * BC(1);
+b(end) = b(end) + mu/h^2 * BC(end);
+
+
+max(A\b)
+
+%% 4
+clc
+clear
+close all
+
+mu = 0.1;
+f = @(x) ones(length(x),1);
+
+intervalli = 100;
+a = 0;
+b = 1;
+h = (b-a)/intervalli
+
+d = (2*mu/h^2 + 1/h) * ones(intervalli-1,1);
+
+d1 = (-mu/h^2 )*ones(intervalli-1,1)
+
+d_1 = (-mu/h^2 - 1/h)*ones(intervalli-1,1)
+
+A = spdiags([d, d1, d_1], [0 1 -1], intervalli-1, intervalli-1);
+
+x = (a:h:b)';
+
+b = f(x(2:end-1));
+
+max(A\b)
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
