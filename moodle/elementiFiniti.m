@@ -658,4 +658,46 @@ zero = abs(u_esatta(0) - u(1))
 
 legend("Calcolata", "Esatta")
 
+%% round 4
+
+%% 1
+clc
+clear
+close all
+
+mu = 1;
+
+f = @(x) 2*sin(x) + (1-x).*sin(x);
+
+x = [0.00, 0.10, 0.27, 0.37, 0.41, 0.54, 0.66, 0.77, 0.80, 0.93, 1.00]';
+
+h = diff(x);
+
+d = mu*(1./h(1:end-1) + 1./h(2:end));
+
+d1 = -mu./h(2:end-1);
+
+A = spdiags([d, [0;d1], [d1;0]], [0 1 -1], length(d), length(d));
+
+b = f(x(2:end-1))/2 .* (h(1:end-1) + h(2:end));
+
+sol = [0;A\b;0]
+
+sol(x == 0.54)
+
+plot(x, sol)
+
+%% 2
+clc
+clear
+close all
+
+
+
+
+
+
+
+
+
 
