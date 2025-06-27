@@ -42,7 +42,7 @@ for k=1:passiT
 
     U = U - 1/2*lambda*a*(U_dx - U_sx) + 1/2 * (lambda*a)^2 * (U_sx + U_dx - 2*U);
     plot(xMedi, U, "bo-")
-    pause(0.01)
+    % pause(0.01)
 end
 
 max(U)
